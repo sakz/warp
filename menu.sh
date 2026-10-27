@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # 当前脚本版本号
-VERSION='3.2.8'
+VERSION='3.2.9'
 
 # 环境变量用于在Debian或Ubuntu操作系统中设置非交互式（noninteractive）安装模式
 export DEBIAN_FRONTEND=noninteractive
@@ -14,8 +14,8 @@ trap on_interrupt_exit INT QUIT TERM
 
 E[0]="\n Language:\n 1. English (default) \n 2. 简体中文"
 C[0]="${E[0]}"
-E[1]="Fix WARP keepalive recovery and avoid restarting healthy interfaces."
-C[1]="修复 WARP 保活恢复，并避免重启正常的网络接口。"
+E[1]="Check WARP keepalive every 10 seconds."
+C[1]="WARP 保活检测间隔调整为 10 秒。"
 E[2]="The script must be run as root, you can enter sudo -i and then download and run again. Feedback: [https://github.com/fscarmen/warp-sh/issues]"
 C[2]="必须以root方式运行脚本，可以输入 sudo -i 后重新下载运行，问题反馈:[https://github.com/fscarmen/warp-sh/issues]"
 E[3]="The TUN module is not loaded. You should turn it on in the control panel. Ask the supplier for more help. Feedback: [https://github.com/fscarmen/warp-sh/issues]"
@@ -2040,7 +2040,7 @@ case "${1:-}" in
         child=
         last_attempt=$(date +%s)
       fi
-      sleep "${INTERVAL:-5m}" 9>&- &
+      sleep "${INTERVAL:-10}" 9>&- &
       child=$!
       wait "$child" 2>/dev/null
       child=

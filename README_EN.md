@@ -22,6 +22,8 @@ English | [中文](README.md)
 * * *
 
 ## Update Information
+2026.10.27 menu.sh v3.2.9 Check keepalive every 10 seconds; the handshake timeout remains 180 seconds.
+
 2026.10.27 menu.sh v3.2.8 Fix keepalive recovery and manual shutdown races; healthy connections no longer restart periodically.
 
 2026.08.08 menu.sh v3.2.7 1. Optimize IPv6 routing rules — cover the whole /64 subnet; 2. Add built-in auto keepalive — periodically check the WARP interface and auto re-register a new IP when it drops, preventing network loss

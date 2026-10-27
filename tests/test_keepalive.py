@@ -122,6 +122,14 @@ except BlockingIOError:
         subprocess.run([str(self.keepalive), "start"], env=self.env, check=True, timeout=7)
         self.wait_for(lambda: (self.state / "loop_pid").exists(), "keepalive loop")
 
+    def test_default_interval_is_ten_seconds(self):
+        self.env.pop("INTERVAL", None)
+        self.command("sleep", "#!/usr/bin/env bash\nprintf '%s\\n' \"$1\" > \"$MOCK_STATE/sleep_interval\"\nexec /bin/sleep 1\n")
+        self.start()
+        self.wait_for(lambda: (self.state / "sleep_interval").exists() and
+                      (self.state / "sleep_interval").read_text().strip(), "default sleep interval")
+        self.assertEqual((self.state / "sleep_interval").read_text().strip(), "10")
+
     def test_healthy_interface_is_not_restarted_or_refreshed(self):
         self.start()
         self.wait_for(lambda: len(self.events()) >= 2, "health check")
